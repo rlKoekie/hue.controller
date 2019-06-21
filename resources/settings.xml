@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<settings>
-    <setting id="debug" type="bool" label="32001" default="false"/>
-    <setting id="bridge_ip" type="text" label="32002" default="" />
-</settings>
-

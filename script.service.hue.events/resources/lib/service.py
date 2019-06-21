@@ -41,7 +41,7 @@ class XBMCPlayer( xbmc.Player ):
             self.lastplayingtype = 'Unknown'
             xbmc.log( "LED Status: Unknown Playback Started, LED ON", level=xbmc.LOGNOTICE )
         # Will be called when xbmc starts playing a file
-        huecontroller.toggleGroup(bridge, 'Woonkamer')
+        #TODO: get scene to apply from settings, and apply it
 
     def onPlayBackEnded( self ):
         if self.lastplayingtype == 'Audio':
@@ -49,7 +49,7 @@ class XBMCPlayer( xbmc.Player ):
             return
         # Will be called when xbmc stops playing a file
         xbmc.log( "LED Status: Playback Ended, LED OFF", level=xbmc.LOGNOTICE )
-        huecontroller.toggleGroup(bridge, 'Woonkamer')
+        #TODO: get scene to apply from settings, and apply it
 
     def onPlayBackStopped( self ):
         if self.lastplayingtype == 'Audio':
@@ -57,7 +57,7 @@ class XBMCPlayer( xbmc.Player ):
             return
         # Will be called when user stops xbmc playing a file
         xbmc.log( "LED Status: Playback Stopped, LED OFF", level=xbmc.LOGNOTICE )
-        huecontroller.toggleGroup(bridge, 'Woonkamer')
+        #TODO: get scene to apply from settings, and apply it
 
 
 

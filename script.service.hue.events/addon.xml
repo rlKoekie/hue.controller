@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.service.hue.events" name="Hue Events" version="0.0.1" provider-name="Hans van Schoot">
+<addon id="script.service.hue.events" name="Hue Events" version="0.0.2" provider-name="Hans van Schoot">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-        <import addon="script.module.hue.tools" version="0.0.1"/>
+        <import addon="script.module.hue.tools" version="0.0.2"/>
     </requires>
     <extension point="xbmc.service" library="main.py" start="startup"/>
     <extension point="xbmc.addon.metadata">
