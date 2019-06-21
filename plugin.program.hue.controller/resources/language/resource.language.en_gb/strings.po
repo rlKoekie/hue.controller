@@ -29,3 +29,28 @@ msgstr ""
 msgctxt "#32002"
 msgid "Bridge IP address"
 msgstr "The IP address for your Hue bridge. Fill this in if uPnP detection fails."
+
+msgctxt "#32003"
+msgid "Scene transition time"
+msgstr "Time in seconds to switch from one scene to another."
+
+msgctxt "#32004"
+msgid "Playback started room//scene"
+msgstr "The Room and Scene to apply when the Playback is started/resumed. Format: Room//Scene, captitals matter!"
+
+msgctxt "#32005"
+msgid "Playback paused room//scene"
+msgstr "The Room and Scene to apply when the Playback is paused. Format: Room//Scene, captitals matter!"
+
+msgctxt "#32006"
+msgid "Playback stopped room//scene"
+msgstr "The Room and Scene to apply when the Playback is stopped. Format: Room//Scene, captitals matter!"
+
+msgctxt "#32007"
+msgid "Video only"
+msgstr "Only change room lighting when playing video. Disable this to also respond to audio playback."
+
+msgctxt "#32008"
+msgid "Change only if lights are on"
+msgstr "Only change room lighting when the lights were already turned on."
+

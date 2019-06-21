@@ -3,6 +3,7 @@
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
         <import addon="script.module.hue.tools" version="0.0.2"/>
+        <import addon="plugin.program.hue.controller" version="0.0.2"/>
     </requires>
     <extension point="xbmc.service" library="main.py" start="startup"/>
     <extension point="xbmc.addon.metadata">

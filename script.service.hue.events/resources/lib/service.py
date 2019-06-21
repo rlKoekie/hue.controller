@@ -37,27 +37,74 @@ class XBMCPlayer( xbmc.Player ):
         elif self.isPlayingVideo():
             self.lastplayingtype = 'Video'
             xbmc.log( "LED Status: Video Playback Started, LED ON", level=xbmc.LOGNOTICE )
+            setting = HueControllerADDON.getSetting("playback_start")
         else:
             self.lastplayingtype = 'Unknown'
             xbmc.log( "LED Status: Unknown Playback Started, LED ON", level=xbmc.LOGNOTICE )
-        # Will be called when xbmc starts playing a file
-        #TODO: get scene to apply from settings, and apply it
+            return
+        if setting:
+            try:
+                room, scene = setting.split('//')
+            except:
+                xbmc.log("hue.events service: Failed to get room/scene from playback_start settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
+            else:
+                huecontroller.runScene(bridge, room, scene)
+
+    def onPlayBackPaused( self ):
+        if self.lastplayingtype == 'Audio':
+            xbmc.log( "Audio Playback Paused", level=xbmc.LOGNOTICE )
+            return
+        xbmc.log( "LED Status: Playback Paused, LED OFF", level=xbmc.LOGNOTICE )
+        setting = HueControllerADDON.getSetting("playback_paused")
+        if setting:
+            try:
+                room, scene = setting.split('//')
+            except:
+                xbmc.log("hue.events service: Failed to get room/scene from playback_paused settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
+            else:
+                huecontroller.runScene(bridge, room, scene)
+
+    def onPlayBackResumed( self ):
+        if self.lastplayingtype == 'Audio':
+            xbmc.log( "Audio Playback Resumed", level=xbmc.LOGNOTICE )
+            return
+        xbmc.log( "LED Status: Playback Resumed, LED OFF", level=xbmc.LOGNOTICE )
+        setting = HueControllerADDON.getSetting("playback_start")
+        if setting:
+            try:
+                room, scene = setting.split('//')
+            except:
+                xbmc.log("hue.events service: Failed to get room/scene from playback_start settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
+            else:
+                huecontroller.runScene(bridge, room, scene)
 
     def onPlayBackEnded( self ):
         if self.lastplayingtype == 'Audio':
             xbmc.log( "Audio Playback Ended", level=xbmc.LOGNOTICE )
             return
-        # Will be called when xbmc stops playing a file
         xbmc.log( "LED Status: Playback Ended, LED OFF", level=xbmc.LOGNOTICE )
-        #TODO: get scene to apply from settings, and apply it
+        setting = HueControllerADDON.getSetting("playback_end")
+        if setting:
+            try:
+                room, scene = setting.split('//')
+            except:
+                xbmc.log("hue.events service: Failed to get room/scene from playback_end settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
+            else:
+                huecontroller.runScene(bridge, room, scene)
 
     def onPlayBackStopped( self ):
         if self.lastplayingtype == 'Audio':
             xbmc.log( "Audio Playback Stopped", level=xbmc.LOGNOTICE )
             return
-        # Will be called when user stops xbmc playing a file
         xbmc.log( "LED Status: Playback Stopped, LED OFF", level=xbmc.LOGNOTICE )
-        #TODO: get scene to apply from settings, and apply it
+        setting = HueControllerADDON.getSetting("playback_end")
+        if setting:
+            try:
+                room, scene = setting.split('//')
+            except:
+                xbmc.log("hue.events service: Failed to get room/scene from playback_end settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
+            else:
+                huecontroller.runScene(bridge, room, scene)
 
 
 
@@ -73,5 +120,5 @@ def run():
         if monitor.waitForAbort(1):
             # Abort was requested while waiting. We should exit
             break
-        xbmc.log("hello from service.py! %s lastplayingtype= %s" %( time.time(), player.lastplayingtype), level=xbmc.LOGNOTICE)
+        xbmc.log("hello from service.py! %s lastplayingtype= %s" %( time.time(), player.lastplayingtype), level=xbmc.LOGINFO)
         

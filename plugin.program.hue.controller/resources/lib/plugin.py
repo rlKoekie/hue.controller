@@ -37,7 +37,7 @@ def show_group(group_name):
     # applicable scenes
     for scene in bridge.scenes:
         if scene.group == str(bridge.get_group_id_by_name(group_name)):
-            addDirectoryItem(plugin.handle, plugin.url_for(scene_group, group_name, scene.scene_id), ListItem("Set scene %s" %scene.name))
+            addDirectoryItem(plugin.handle, plugin.url_for(scene_group, group_name, scene.name), ListItem("Set scene %s" %scene.name))
 
     endOfDirectory(plugin.handle)
 
@@ -45,9 +45,10 @@ def show_group(group_name):
 def toggle_group(group_name):
     huecontroller.toggleGroup(bridge, group_name)
 
-@plugin.route('/group/<group_name>/scene-<scene_id>')
-def scene_group(group_name, scene_id):
-    huecontroller.applyScene(bridge, group_name, scene_id)
+@plugin.route('/group/<group_name>/scene-<scene_name>')
+def scene_group(group_name, scene_name):
+    # transition_time = ADDON.getSetting("transition_time") # seems not to work in phue
+    huecontroller.runScene(bridge, group_name, scene_name)
 
 def run():
     plugin.run()

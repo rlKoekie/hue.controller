@@ -2,5 +2,12 @@
 <settings>
     <setting id="debug" type="bool" label="32001" default="false"/>
     <setting id="bridge_ip" type="text" label="32002" default="" />
+    <!-- <setting id="transition_time" type="number" label="32003" default="2" /> 
+    Does not seem to work in phue at this time!-->
+    <setting id="playback_start" type="text" label="32004" default="" />
+    <setting id="playback_paused" type="text" label="32005" default="" />
+    <setting id="playback_end" type="text" label="32006" default="" />
+    <setting id="Video_only" type="bool" label="32007" default="true" />
+    <setting id="already_on" type="bool" label="32008" default="true" />
 </settings>
 

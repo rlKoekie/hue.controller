@@ -12,13 +12,15 @@ from urlparse import urlsplit
 from phue import Bridge, PhueRegistrationException
 
 ADDON = xbmcaddon.Addon()
+HueControllerADDON = xbmcaddon.Addon(id='plugin.program.hue.controller')
+
 logger = logging.getLogger(ADDON.getAddonInfo('id'))
 addon_name = ADDON.getAddonInfo('name')
 kodilogging.config()
 
 
 def getBridge():
-    bridgeIP = ADDON.getSetting("bridge_ip")
+    bridgeIP = HueControllerADDON.getSetting("bridge_ip")
     myBridge=None
     try:
         # try to connect to the bridge without supplying info. 
@@ -48,7 +50,7 @@ def getBridge():
                     myBridge=Bridge(bridgelocation)
                 if bridgeIP:
                     answer2 = xbmcgui.Dialog().yesno(addon_name, 'remove the faulty bridge IP from the plugin setings?')
-                    if answer2 == True: ADDON.setSetting("bridge_ip", "")
+                    if answer2 == True: HueControllerADDON.setSetting("bridge_ip", "")
             else:
                 xbmcgui.Dialog().ok(addon_name, 'Sorry, we failed to locate the Hue bridge...')
     return myBridge
@@ -59,6 +61,11 @@ def toggleGroup(bridge, group_name):
     else:
         bridge.set_group(group_name, 'on', True)
 
+# inconvinient way of setting a scene, needs the group_id and scene_id
 def applyScene(bridge, group_name, scene_id):
     bridge.activate_scene(bridge.get_group_id_by_name(group_name),scene_id)
 
+# easy way of setting a scene, just uses human readable names
+def runScene(bridge, group_name, scene_name, transition_time=4):
+    # note: transition_time does not seem to work in phue
+    bridge.run_scene(group_name, scene_name, transition_time)
