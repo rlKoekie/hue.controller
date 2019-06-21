@@ -14,111 +14,89 @@ import huecontroller
 
 ADDON = xbmcaddon.Addon()
 logger = logging.getLogger(ADDON.getAddonInfo('id'))
+myloglevel=xbmc.LOGDEBUG
 
 HueControllerADDON = xbmcaddon.Addon(id='plugin.program.hue.controller')
 
+debug = HueControllerADDON.getSetting('debug')
+if debug:
+    myloglevel = xbmc.LOGNOTICE
+
 bridge=huecontroller.getBridge()
+
+def changeScene(setting_name):
+    setting = HueControllerADDON.getSetting(setting_name)
+    if setting:
+        try:
+            room, scene = setting.split('//')
+        except:
+            xbmc.log("Failed to get room/scene from %s settings, possibly incorrectly formatted? setting=%s" %(setting_name, setting), level=myloglevel)
+        else:
+            xbmc.log("Applying scene %s to room %s" %(scene, room), level=myloglevel)
+            huecontroller.runScene(bridge, room, scene)
 
 class XBMCPlayer( xbmc.Player ):
     def __init__( self, *args ):
         # super(XBMCPlayer, self).__init__()
         self.lastplayingtype = ''
 
-
     def onPlayBackStarted( self ):
-        # TODO: make a while loop with shorter sleep, we need this if playback startup takes a long time
-        # examples: video playback takes slightly longer to start, so that needs a small amount of sleep
-        # can probably take a lot longer with disk spinup time. So just while loop with max count 15 or something like that if we keep getting Unknown type
-        xbmc.sleep(1000)
-        if self.isPlayingAudio():
-            self.lastplayingtype = 'Audio'
-            xbmc.log( "LED Status: Audio Playback Started, LED ON", level=xbmc.LOGNOTICE )
-            return
-        elif self.isPlayingVideo():
-            self.lastplayingtype = 'Video'
-            xbmc.log( "LED Status: Video Playback Started, LED ON", level=xbmc.LOGNOTICE )
-            setting = HueControllerADDON.getSetting("playback_start")
-        else:
-            self.lastplayingtype = 'Unknown'
-            xbmc.log( "LED Status: Unknown Playback Started, LED ON", level=xbmc.LOGNOTICE )
-            return
-        if setting:
-            try:
-                room, scene = setting.split('//')
-            except:
-                xbmc.log("hue.events service: Failed to get room/scene from playback_start settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
+        count = 0
+        self.lastplayingtype = 'Unknown'
+        # We loop here because if playback takes some time to start, then the isPlayingAudio/Video functions will return 'false'
+        while count < 15 and self.lastplayingtype == 'Unknown':
+            if self.isPlayingAudio():
+                self.lastplayingtype = 'Audio'
+                xbmc.log( "Playback started, Audio type detected", level=myloglevel )
+                if HueControllerADDON.getSetting('video_only') == "true": return
+            elif self.isPlayingVideo():
+                self.lastplayingtype = 'Video'
+                xbmc.log( "Playback started, Video type detected", level=myloglevel )
             else:
-                huecontroller.runScene(bridge, room, scene)
+                self.lastplayingtype = 'Unknown'
+                xbmc.log( "Playback started, but type Unknown. Sleeping and then trying again. Count=%s" %(count), level=myloglevel )
+                xbmc.sleep(1000)
+        changeScene("playback_start")
 
     def onPlayBackPaused( self ):
         if self.lastplayingtype == 'Audio':
-            xbmc.log( "Audio Playback Paused", level=xbmc.LOGNOTICE )
-            return
-        xbmc.log( "LED Status: Playback Paused, LED OFF", level=xbmc.LOGNOTICE )
-        setting = HueControllerADDON.getSetting("playback_paused")
-        if setting:
-            try:
-                room, scene = setting.split('//')
-            except:
-                xbmc.log("hue.events service: Failed to get room/scene from playback_paused settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
-            else:
-                huecontroller.runScene(bridge, room, scene)
+            xbmc.log( "Audio Playback Paused", level=myloglevel )
+            if HueControllerADDON.getSetting('video_only') == "true": return
+        xbmc.log( "Playback Paused", level=myloglevel )
+        changeScene("playback_paused")
 
     def onPlayBackResumed( self ):
         if self.lastplayingtype == 'Audio':
-            xbmc.log( "Audio Playback Resumed", level=xbmc.LOGNOTICE )
-            return
-        xbmc.log( "LED Status: Playback Resumed, LED OFF", level=xbmc.LOGNOTICE )
-        setting = HueControllerADDON.getSetting("playback_start")
-        if setting:
-            try:
-                room, scene = setting.split('//')
-            except:
-                xbmc.log("hue.events service: Failed to get room/scene from playback_start settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
-            else:
-                huecontroller.runScene(bridge, room, scene)
+            xbmc.log( "Audio Playback Resumed", level=myloglevel )
+            if HueControllerADDON.getSetting('video_only') == "true": return
+        xbmc.log( "Playback Resumed", level=myloglevel )
+        changeScene("playback_start")
 
     def onPlayBackEnded( self ):
         if self.lastplayingtype == 'Audio':
-            xbmc.log( "Audio Playback Ended", level=xbmc.LOGNOTICE )
-            return
-        xbmc.log( "LED Status: Playback Ended, LED OFF", level=xbmc.LOGNOTICE )
-        setting = HueControllerADDON.getSetting("playback_end")
-        if setting:
-            try:
-                room, scene = setting.split('//')
-            except:
-                xbmc.log("hue.events service: Failed to get room/scene from playback_end settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
-            else:
-                huecontroller.runScene(bridge, room, scene)
+            xbmc.log( "Audio Playback Ended", level=myloglevel )
+            if HueControllerADDON.getSetting('video_only') == "true": return
+        xbmc.log( "Playback Ended", level=myloglevel )
+        changeScene("playback_end")
 
     def onPlayBackStopped( self ):
         if self.lastplayingtype == 'Audio':
-            xbmc.log( "Audio Playback Stopped", level=xbmc.LOGNOTICE )
-            return
-        xbmc.log( "LED Status: Playback Stopped, LED OFF", level=xbmc.LOGNOTICE )
-        setting = HueControllerADDON.getSetting("playback_end")
-        if setting:
-            try:
-                room, scene = setting.split('//')
-            except:
-                xbmc.log("hue.events service: Failed to get room/scene from playback_end settings, possibly incorrectly formatted: %s" %(setting), level=xbmc.LOGNOTICE)
-            else:
-                huecontroller.runScene(bridge, room, scene)
-
-
+            xbmc.log( "Audio Playback Stopped", level=myloglevel )
+            if HueControllerADDON.getSetting('video_only') == "true": return
+        xbmc.log( "Playback Stopped", level=myloglevel )
+        changeScene("playback_end")
 
 
 def run():
-    # monitor = XBMCMonitor()
     monitor = xbmc.Monitor()
     
     player = XBMCPlayer()
-
+    
     while not monitor.abortRequested():
         # Sleep/wait for abort for 10 seconds
         if monitor.waitForAbort(1):
             # Abort was requested while waiting. We should exit
             break
-        xbmc.log("hello from service.py! %s lastplayingtype= %s" %( time.time(), player.lastplayingtype), level=xbmc.LOGINFO)
-        
+        # xbmc.log("hello from service.py! %s lastplayingtype= %s" %( time.time(), player.lastplayingtype), level=myloglevel)
+        xbmc.log("video_only setting value: %s" %(HueControllerADDON.getSetting("video_only")), level=myloglevel)
+        pass

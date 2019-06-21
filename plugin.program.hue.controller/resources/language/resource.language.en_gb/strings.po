@@ -23,8 +23,8 @@ msgid "Example"
 msgstr ""
 
 msgctxt "#32001"
-msgid "Debug"
-msgstr ""
+msgid "Debug (needs kodi restart)"
+msgstr "Kodi needs to restart to get full debug output from the hue events service."
 
 msgctxt "#32002"
 msgid "Bridge IP address"

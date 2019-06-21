@@ -7,7 +7,7 @@
     <setting id="playback_start" type="text" label="32004" default="" />
     <setting id="playback_paused" type="text" label="32005" default="" />
     <setting id="playback_end" type="text" label="32006" default="" />
-    <setting id="Video_only" type="bool" label="32007" default="true" />
-    <setting id="already_on" type="bool" label="32008" default="true" />
+    <setting id="video_only" type="bool" label="32007" default="true" />
+    <setting id="lights_already_on" type="bool" label="32008" default="true" />
 </settings>
 
