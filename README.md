@@ -1,36 +1,42 @@
 Hue Controller
 ==============
 
-This is a set of kodi add-ons for basic control of Philips hue lights. It uses the phue (https://github.com/studioimaginaire/phue) python module to do the actual work.
+This is a set of kodi add-ons for basic control of Philips hue lights. It uses the phue (https://github.com/studioimaginaire/phue) python module to communicate with the Hue bridge.
 It has basic uPnP discovery to find the hue bridge in the network, based on the code from discoverhue (https://github.com/Overboard/discoverhue).
 
 Supported platforms: So far the add-ons have only been tested on Linux, but there is a good chance they work on OSX/Windows as well :-)
 
-script.module.hue.tools:
-------------------------
-This plugin contains code for dealing with Hue lights, and is the shared repo
-
 plugin.program.hue.controller:
 ------------------------------
-This is the actual plugin, which currently is capable of detecting, connecting & controlling your Hue setup.
-After connecting, it shows your configured Hue rooms (groups), and upon selecting one of them you can toggle the lights or apply a scene. Scenes need to be set up in some another way, e.g. through the Philips Hue app, or Hue Essentals.
+This is the actual plugin. It detects & connects to your Hue bridge, then shows your configured rooms (groups), and upon selecting one of them you can toggle the lights on/off or apply a scene. The scenes also have context menu options for selecting them as a Playback action!
+Scenes are read from your Hue configuration, and cannot be configured from Kodi (That would be too complex and very remote-unfriendly). Just configure your scenes in some another way, e.g. through the Philips Hue app, or a third party app such as Hue Essentals.
+The settings of this add-on also control the behaviour of the service add-on. It currently has the following options:
+- Bridge IP: You can enter the ip address of your Hue bridge in here if there are problems connecting to it. In most cases this can just stay empty!
+- Playback start/paused/stopped event actions: The service script add-on reads these values and applies them on the corresponding playback change. They take the format of "room//scene" (without the quotes), and are case sensitive. You could manually enter them, but it is easier to open the plugin, select a room, open the context menu on a scene, and then select the desired action.
+- Video only: If this option is enabled, the add-on will not change the lighting configuration when playing audio files. If it is disabled, the add-on will respond to all media types.
+- Change only if lights are on: If enabled the add-on will only change your room lighting on playback start/paused/stopped IF the lights were ON when playback started. When disabled it will also change the room lighting if the lights were originally off.
 
 script.service.hue.events:
 --------------------------
-This is a service plugin, needed for monitoring playback start/stop events. Currently this is not yet doing anything useful, but in the near future this will take care of selecting scenes whenever you start/stop/pause a video in Kodi.
+This is a service script add-on. It monitors playback start/pauze/stop events, and can act on them. If there are scenes configured for the playback started, playback paused and/or playback stopped events (see plugin.program.hue.controller), then the service script will set the room lighting to these scenes on the corresponding playback change.
 
+script.module.hue.tools:
+------------------------
+This plugin is the shared code base for the service script and the program plugin. It contains code for dealing with Hue lights, the phue (https://github.com/studioimaginaire/phue) python module, and a stripped-down version of discoverhue (https://github.com/Overboard/discoverhue).
 
 How to install
 ==============
-1. git clone the repo
-2. cd $HOME/.kodi/addons
-3. ln -s /path/to/the/repo/script.module.hue.tools
-4. ln -s /path/to/the/repo/plugin.program.hue.controller
-5. ln -s /path/to/the/repo/script.service.hue.events # this can be skipped for now!
-6. Start Kodi, go to my add-ons, and enable the add-ons under programs and service
-7. Go to the program add-ons, select Hue Controller, and follow the on-screen instructions
-
+* git clone the repo, or download the zip file
+* Open your kodi add-ons folder, this is $HOME/.kodi/addons on linux
+* Copy or symlink the following three folders into the add-ons folder: script.module.hue.tools , plugin.program.hue.controller , script.service.hue.events
+* Start Kodi, go to my add-ons, and enable the add-ons under programs and service
+* Go to the program add-ons, select Hue Controller, and follow the on-screen instructions
 
 
 Simple feature requests are welcome!
 
+
+TODO at some point:
+-------------------
+- maybe support multiple hue bridges during detection
+- allow turning off the lights as an event action
