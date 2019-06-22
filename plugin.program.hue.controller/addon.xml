@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.program.hue.controller" name="Hue Controller" version="0.1.0" provider-name="Hans van Schoot">
+<addon id="plugin.program.hue.controller" name="Hue Controller" version="0.1.1" provider-name="Hans van Schoot">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
-        <import addon="script.module.hue.tools" version="0.1.0"/>
+        <import addon="script.module.hue.tools" version="0.1.1"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
         <provides>executable</provides>
@@ -13,7 +13,7 @@
         <summary lang="en_GB">List and control Hue lights through the Hue bridge, using the phue python module</summary>
         <description lang="en_GB"></description>
         <language></language>
-        <platform>linux</platform>
+        <platform>all</platform>
         <license>BSD-2-Clause-FreeBSD</license>
         <forum></forum>
         <website>-</website>

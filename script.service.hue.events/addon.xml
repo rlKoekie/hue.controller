@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.service.hue.events" name="Hue Events" version="0.1.0" provider-name="Hans van Schoot">
+<addon id="script.service.hue.events" name="Hue Events" version="0.1.1" provider-name="Hans van Schoot">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-        <import addon="script.module.hue.tools" version="0.1.0"/>
-        <import addon="plugin.program.hue.controller" version="0.1.0"/>
+        <import addon="script.module.hue.tools" version="0.1.1"/>
+        <import addon="plugin.program.hue.controller" version="0.1.1"/>
     </requires>
     <extension point="xbmc.service" library="main.py" start="startup"/>
     <extension point="xbmc.addon.metadata">
         <summary lang="en_GB">Trigger Hue actions on Kodi events such as Player Start/Stop/Pause/Resume</summary>
         <description lang="en_GB"></description>
         <language></language>
-        <platform>linux</platform>
+        <platform>all</platform>
         <license>BSD-2-Clause-FreeBSD</license>
         <forum></forum>
         <website>https://github.com/rlKoekie</website>
