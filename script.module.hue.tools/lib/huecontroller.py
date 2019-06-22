@@ -61,6 +61,9 @@ def toggleGroup(bridge, group_name):
     else:
         bridge.set_group(group_name, 'on', True)
 
+def lightsAreOn(bridge, group_name):
+    return bridge.get_group(group_name, 'on')
+
 # inconvinient way of setting a scene, needs the group_id and scene_id
 def applyScene(bridge, group_name, scene_id):
     bridge.activate_scene(bridge.get_group_id_by_name(group_name),scene_id)
