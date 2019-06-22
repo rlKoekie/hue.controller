@@ -37,7 +37,13 @@ def show_group(group_name):
     # applicable scenes
     for scene in bridge.scenes:
         if scene.group == str(bridge.get_group_id_by_name(group_name)):
-            addDirectoryItem(plugin.handle, plugin.url_for(scene_group, group_name, scene.name), ListItem("Set scene %s" %scene.name))
+            li = ListItem("Set scene %s" %scene.name)
+            li.addContextMenuItems([
+                ('Set on Playback start/resume', 'RunPlugin(plugin://plugin.program.hue.controller/setSetting/playback_start/%s/%s)' %(group_name, scene.name)),
+                ('Set on Playback paused',       'RunPlugin(plugin://plugin.program.hue.controller/setSetting/playback_paused/%s/%s)' %(group_name, scene.name)),
+                ('Set on Playback stopped',      'RunPlugin(plugin://plugin.program.hue.controller/setSetting/playback_end/%s/%s)' %(group_name, scene.name))
+                ])
+            addDirectoryItem(plugin.handle, plugin.url_for(scene_group, group_name, scene.name), li)
 
     endOfDirectory(plugin.handle)
 
@@ -49,6 +55,10 @@ def toggle_group(group_name):
 def scene_group(group_name, scene_name):
     # transition_time = ADDON.getSetting("transition_time") # seems not to work in phue
     huecontroller.runScene(bridge, group_name, scene_name)
+
+@plugin.route('/setSetting/<setting_name>/<group_name>/<scene_name>')
+def setSetting(setting_name, group_name, scene_name):
+    ADDON.setSetting(setting_name, '%s//%s' %(group_name, scene_name))
 
 def run():
     plugin.run()
