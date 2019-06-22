@@ -38,5 +38,6 @@ Simple feature requests are welcome!
 
 TODO at some point:
 -------------------
+- change multiple rooms on playback events
 - maybe support multiple hue bridges during detection
 - allow turning off the lights as an event action
