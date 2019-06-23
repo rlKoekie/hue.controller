@@ -44,7 +44,15 @@ def show_group(group_name):
                 ('Set on Playback stopped',      'RunPlugin(plugin://plugin.program.hue.controller/setSetting/playback_end/%s/%s)' %(group_name, scene.name))
                 ])
             addDirectoryItem(plugin.handle, plugin.url_for(scene_group, group_name, scene.name), li)
-
+    # add a special "lights off" scene
+    li = ListItem("Set scene Lights Off")
+    li.addContextMenuItems([
+        ('Set on Playback start/resume', 'RunPlugin(plugin://plugin.program.hue.controller/setSetting/playback_start/%s/%s)' %(group_name, 'HueControllerLightsOff')),
+        ('Set on Playback paused',       'RunPlugin(plugin://plugin.program.hue.controller/setSetting/playback_paused/%s/%s)' %(group_name, 'HueControllerLightsOff')),
+        ('Set on Playback stopped',      'RunPlugin(plugin://plugin.program.hue.controller/setSetting/playback_end/%s/%s)' %(group_name, 'HueControllerLightsOff'))
+        ])
+    addDirectoryItem(plugin.handle, plugin.url_for(scene_group, group_name, 'HueControllerLightsOff'), li)
+    
     endOfDirectory(plugin.handle)
 
 @plugin.route('/group/<group_name>/toggle')
@@ -54,7 +62,10 @@ def toggle_group(group_name):
 @plugin.route('/group/<group_name>/scene-<scene_name>')
 def scene_group(group_name, scene_name):
     # transition_time = ADDON.getSetting("transition_time") # seems not to work in phue
-    huecontroller.runScene(bridge, group_name, scene_name)
+    if scene_name == 'HueControllerLightsOff':
+        huecontroller.turnLightsOff(bridge, group_name)
+    else:
+        huecontroller.runScene(bridge, group_name, scene_name)
 
 @plugin.route('/setSetting/<setting_name>/<group_name>/<scene_name>')
 def setSetting(setting_name, group_name, scene_name):
