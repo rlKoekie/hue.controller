@@ -4,7 +4,7 @@ Hue Controller
 This is a set of kodi add-ons for basic control of Philips hue lights. It uses the phue (https://github.com/studioimaginaire/phue) python module to communicate with the Hue bridge.
 It has basic uPnP discovery to find the hue bridge in the network, based on the code from discoverhue (https://github.com/Overboard/discoverhue).
 
-Supported platforms: So far the add-ons have only been tested on Linux, but there is a good chance they work on OSX/Windows as well :-)
+Supported platforms: I've tested the add-on on Linux, Windows and Android, and it probably works on MacOS as well :-)
 
 plugin.program.hue.controller:
 ------------------------------
