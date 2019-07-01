@@ -62,10 +62,7 @@ def toggle_group(group_name):
 @plugin.route('/group/<group_name>/scene-<scene_name>')
 def scene_group(group_name, scene_name):
     # transition_time = ADDON.getSetting("transition_time") # seems not to work in phue
-    if scene_name == 'HueControllerLightsOff':
-        huecontroller.turnLightsOff(bridge, group_name)
-    else:
-        huecontroller.runScene(bridge, group_name, scene_name)
+    huecontroller.runScene(bridge, group_name, scene_name)
 
 @plugin.route('/setSetting/<setting_name>/<group_name>/<scene_name>')
 def setSetting(setting_name, group_name, scene_name):

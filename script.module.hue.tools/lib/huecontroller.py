@@ -77,4 +77,7 @@ def applyScene(bridge, group_name, scene_id):
 # easy way of setting a scene, just uses human readable names
 def runScene(bridge, group_name, scene_name, transition_time=4):
     # note: transition_time does not seem to work in phue
-    bridge.run_scene(group_name, scene_name, transition_time)
+    if scene_name == 'HueControllerLightsOff':
+        turnLightsOff(bridge, group_name)
+    else:
+        bridge.run_scene(group_name, scene_name, transition_time)
