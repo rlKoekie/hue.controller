@@ -9,7 +9,11 @@ from resources.lib import kodiutils
 from resources.lib import kodilogging
 from xbmcgui import ListItem
 from xbmcplugin import addDirectoryItem, endOfDirectory
-from urlparse import urlsplit
+import sys
+if (sys.version_info > (3, 0)):
+    from urllib.parse import urlsplit
+else:
+    from urlparse import urlsplit
 
 ADDON = xbmcaddon.Addon()
 logger = logging.getLogger(ADDON.getAddonInfo('id'))

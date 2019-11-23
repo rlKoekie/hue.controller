@@ -19,7 +19,10 @@ import socket
 import httplib
 import io
 import sys
-from urlparse import urlsplit
+if (sys.version_info > (3, 0)):
+    from urllib.parse import urlsplit
+else:
+    from urlparse import urlsplit
 import logging
 logger = logging.getLogger('ssdp')
 
