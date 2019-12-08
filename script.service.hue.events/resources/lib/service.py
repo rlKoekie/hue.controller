@@ -60,6 +60,7 @@ class XBMCPlayer( xbmc.Player ):
                 currenttime = datetime.datetime.now().hour * 100 + datetime.datetime.now().minute
                 if currenttime >= excltimestartint and currenttime < excltimeendint:
                     xbmc.log("We are inside the excluded time slot. Not chaning scenes. currenttime: %s, excltimestartint: %s, excltimeendint: %s" %(currenttime, excltimestartint, excltimeendint), level=self.loglevel)
+                    self.lightswereon = False:
                     return
         if HueControllerADDON.getSetting('lights_already_on') == "true":
             roomscenestring = HueControllerADDON.getSetting('playback_start')
@@ -73,7 +74,7 @@ class XBMCPlayer( xbmc.Player ):
                     xbmc.log('Lights in room %s are on? %s' %(room, roomIsOn), level=self.loglevel)
                     self.lightswereon = roomIsOn
         if self.lightswereon == False:
-            xbmc.log("Lights were off when playback started! Not changing scenes.", level=self.loglevel)
+            xbmc.log("Lights were off when playback started, or we were in the excluded time slot! Not changing scenes.", level=self.loglevel)
             return
         count = 0
         self.lastplayingtype = 'Unknown'
