@@ -9,5 +9,8 @@
     <setting id="playback_end" type="text" label="32006" default="" />
     <setting id="video_only" type="bool" label="32007" default="true" />
     <setting id="lights_already_on" type="bool" label="32008" default="true" />
+    <setting id="excl_time_on" type="bool" label="32009" default="true" />
+    <setting id="excl_time_start" type="time" label="32010" default="03:00"/>
+    <setting id="excl_time_end" type="time" label="32011" default="12:00"/>
 </settings>
 

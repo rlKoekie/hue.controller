@@ -54,3 +54,14 @@ msgctxt "#32008"
 msgid "Change only if lights are on"
 msgstr "Only change room lighting when the lights were already turned on."
 
+msgctxt "#32009"
+msgid "Enable the excluded timeslot"
+msgstr "Turn on the excluded timeslot to stop your Hue lighting from changing between the excluded timeslot start and end times. Very useful if you want to watch the news during your breakfast without the room going dark, making your partner trip on the legos and cursing your damned adaptive lighting scripts ;-)"
+
+msgctxt "#32010"
+msgid "Excluded timeslot start"
+msgstr "Do not change room lighting between the excluded timeslot start and end times."
+
+msgctxt "#32011"
+msgid "Excluded timeslot end"
+msgstr "Do not change room lighting between the excluded timeslot start and end times."

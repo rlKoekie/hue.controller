@@ -7,6 +7,7 @@ import time
 import xbmc
 import xbmcaddon
 import json
+import datetime
 
 
 import huecontroller
@@ -42,6 +43,24 @@ class XBMCPlayer( xbmc.Player ):
 
     def onPlayBackStarted( self ):
         HueControllerADDON = xbmcaddon.Addon(id='plugin.program.hue.controller')
+        if HueControllerADDON.getSetting('excl_time_on') == "true":
+            excltimestart = HueControllerADDON.getSetting('excl_time_start')
+            excltimeend = HueControllerADDON.getSetting('excl_time_end')
+            # the times from settings are type string and formatted "03:00"   !
+            try:
+                # convert it to integers
+                exclstartlist = excltimestart.split(":")
+                exclendlist = excltimeend.split(":")
+                excltimestartint = int(exclstartlist[0])*100 + int(exclstartlist[1])
+                excltimeendint = int(exclendlist[0])*100 + int(exclendlist[1])
+            except Exception as err:
+                xbmc.log("Failed to split and convert the times to an integer value.\n excl_time_start: %s\n excl_time_end: %s.\n Error message: %s" %(excltimestart,excltimeend, err), level=xbmc.LOGNOTICE)
+            else:
+                # get the current time
+                currenttime = datetime.datetime.now().hour * 100 + datetime.datetime.now().minute
+                if currenttime >= excltimestartint and currenttime < excltimeendint:
+                    xbmc.log("We are inside the excluded time slot. Not chaning scenes. currenttime: %s, excltimestartint: %s, excltimeendint: %s" %(currenttime, excltimestartint, excltimeendint), level=self.loglevel)
+                    return
         if HueControllerADDON.getSetting('lights_already_on') == "true":
             roomscenestring = HueControllerADDON.getSetting('playback_start')
             if roomscenestring:
