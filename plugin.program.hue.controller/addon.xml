@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.program.hue.controller" name="Hue Controller" version="0.1.1" provider-name="Hans van Schoot">
+<addon id="plugin.program.hue.controller" name="Hue Controller" version="0.1.2" provider-name="Hans van Schoot">
     <requires>
-        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
-        <import addon="script.module.hue.tools" version="0.1.1"/>
+        <import addon="script.module.hue.tools" version="0.1.2"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
         <provides>executable</provides>
