@@ -54,7 +54,7 @@ class XBMCPlayer( xbmc.Player ):
                 excltimestartint = int(exclstartlist[0])*100 + int(exclstartlist[1])
                 excltimeendint = int(exclendlist[0])*100 + int(exclendlist[1])
             except Exception as err:
-                xbmc.log("Failed to split and convert the times to an integer value.\n excl_time_start: %s\n excl_time_end: %s.\n Error message: %s" %(excltimestart,excltimeend, err), level=xbmc.LOGNOTICE)
+                xbmc.log("Failed to split and convert the times to an integer value.\n excl_time_start: %s\n excl_time_end: %s.\n Error message: %s" %(excltimestart,excltimeend, err), level=xbmc.INFO)
             else:
                 # get the current time
                 currenttime = datetime.datetime.now().hour * 100 + datetime.datetime.now().minute
@@ -152,10 +152,10 @@ def run():
         HueControllerADDON = xbmcaddon.Addon(id='plugin.program.hue.controller')
         debug = HueControllerADDON.getSetting('debug')
         if debug == "true":
-            player.loglevel = xbmc.LOGNOTICE
+            player.loglevel = xbmc.INFO
         else:
             player.loglevel = xbmc.LOGDEBUG
-        # xbmc.log("%s lastplayingtype= %s lightswereon= %s loglevel=%s" %( time.time(), player.lastplayingtype, player.lightswereon, player.loglevel), level=xbmc.LOGNOTICE)
+        # xbmc.log("%s lastplayingtype= %s lightswereon= %s loglevel=%s" %( time.time(), player.lastplayingtype, player.lightswereon, player.loglevel), level=xbmc.INFO)
         # HueControllerADDON = xbmcaddon.Addon(id='plugin.program.hue.controller')
         # xbmc.log("lights_already_on setting value: %s" %(HueControllerADDON.getSetting("lights_already_on")), level=myloglevel)
         # xbmc.log("video_only setting value: %s" %(HueControllerADDON.getSetting("video_only")), level=myloglevel)
